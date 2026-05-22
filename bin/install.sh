@@ -83,7 +83,11 @@ CHOICES=$(gum choose --no-limit \
     "📂 [3] Linux File Watcher expansions (inotify)" \
     "🛡️  [4] Snapper BTRFS recovery snapshots & pacman hooks" \
     "🛠️  [5] Developer Core (tmux panel splits & mise environment shims)" \
-    "📦 [6] Premium Apps Bundle (Vivaldi + GPU VAAPI, Audio stack, BT codecs, OnlyOffice, zip/rar)")
+    "📦 [6] Premium Apps Bundle (Vivaldi + GPU, Audio stack, BT codecs, zip/rar)" \
+    "🤖 [7] AI Developer Tools (Claude Code, Gemini CLI, Agent Shims)" \
+    "🚀 [8] Easyarch App Pack (Telegram, WineHQ, GitHub Desktop, Chrome, OnlyOffice, Antigravity)" \
+    "🖥️  [9] Virtualization Stack (KVM, QEMU, virt-manager, virtual bridges)" \
+    "🐋 [10] Docker Stack (Docker engine, Compose, NVIDIA CUDA container toolkit)")
 
 if [ -z "$CHOICES" ]; then
     log_warn "No modules were selected. Exiting installer."
@@ -143,6 +147,22 @@ fi
 
 if echo "$CHOICES" | grep -q "\[6\]"; then
     run_module "apps-bundle.sh" "Premium Application & Audio Bundle"
+fi
+
+if echo "$CHOICES" | grep -q "\[7\]"; then
+    run_module "ai-tools.sh" "AI Developer Tools"
+fi
+
+if echo "$CHOICES" | grep -q "\[8\]"; then
+    run_module "easyarch.sh" "Easyarch App Pack"
+fi
+
+if echo "$CHOICES" | grep -q "\[9\]"; then
+    run_module "kvm-qemu.sh" "KVM/QEMU Virtualization Stack"
+fi
+
+if echo "$CHOICES" | grep -q "\[10\]"; then
+    run_module "docker-cuda.sh" "Docker Engine & CUDA container toolkit"
 fi
 
 echo -e "------------------------------------------------------------"

@@ -83,8 +83,7 @@ CHOICES=$(gum choose --no-limit \
     "📂 [3] Linux File Watcher expansions (inotify)" \
     "🛡️  [4] Snapper BTRFS recovery snapshots & pacman hooks" \
     "🛠️  [5] Developer Core (tmux panel splits & mise environment shims)" \
-    "🚀 [6] Starship Visual Prompt (highly customizable cross-shell prompt)" \
-    "📦 [7] Premium Apps Bundle (Vivaldi + GPU VAAPI, Audio stack, BT codecs, LibreOffice)")
+    "📦 [6] Premium Apps Bundle (Vivaldi + GPU VAAPI, Audio stack, BT codecs, OnlyOffice, zip/rar)")
 
 if [ -z "$CHOICES" ]; then
     log_warn "No modules were selected. Exiting installer."
@@ -143,10 +142,6 @@ if echo "$CHOICES" | grep -q "\[5\]"; then
 fi
 
 if echo "$CHOICES" | grep -q "\[6\]"; then
-    run_module "starship.sh" "Starship Shell Prompt"
-fi
-
-if echo "$CHOICES" | grep -q "\[7\]"; then
     run_module "apps-bundle.sh" "Premium Application & Audio Bundle"
 fi
 

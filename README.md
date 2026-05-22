@@ -32,9 +32,7 @@ This project isolates and refactors high-grade backend improvements (NVIDIA GPU 
   * Verifies or bootstraps `yay` AUR helper integration.
   * Installs and configures [tmux](https://github.com/tmux/tmux) with mouse support, intuitive panel splitting bindings, and ultra-fast escape-latency.
   * Registers environment shims for [mise](https://mise.jdx.dev/) runtime manager dynamically inside `.bashrc` and `config.fish`.
-* **🚀 Module 6: Starship Shell Prompt (Optional)**
-  * Deploys the beautiful, fast, and highly customizable [Starship](https://starship.rs/) cross-shell prompt layout on Fish and Bash.
-* **📦 Module 7: Premium Apps Bundle (Optional)**
+* **📦 Module 6: Premium Apps Bundle (Optional)**
   * Installs **Vivaldi Browser** along with proprietary media codecs, and automatically sets up hardware accelerated video decoding (VA-API) in Vivaldi configuration flags for seamless YouTube/video rendering.
   * Deploys the high-fidelity **Audio Stack & Bluetooth Codecs** (LDAC, aptX) alongside `pavucontrol` (volume mixer GUI) for superior sound stability and control.
   * Installs the modern **OnlyOffice** suite (with high MS Office file compatibility) and Spanish spelling dictionary support (`hunspell-es`).
@@ -69,7 +67,6 @@ cachy-gnome-tweaks/
 ├── bin/
 │   └── install.sh              # Main GUM-driven selector installer
 ├── config/
-│   ├── starship.toml           # Optimized Starship shell layout configuration
 │   └── tmux.conf               # Elegant tmux shortcuts, truecolor support & split commands
 └── scripts/
     ├── nvidia.sh               # Module 1: GPU rendering & electron overrides
@@ -77,8 +74,7 @@ cachy-gnome-tweaks/
     ├── file-watchers.sh        # Module 3: System inotify limits expansion
     ├── snapper.sh              # Module 4: Snapper configuration & grub-btrfs daemon hook
     ├── dev-tools.sh            # Module 5: User configurations, yay bootstrapper & mise shell configs
-    ├── starship.sh             # Module 6: Starship prompt setup & activation shims
-    └── apps-bundle.sh          # Module 7: Vivaldi, OnlyOffice, Audio stack & BT codecs
+    └── apps-bundle.sh          # Module 6: Vivaldi, OnlyOffice, Audio stack & BT codecs
 ```
 
 ---

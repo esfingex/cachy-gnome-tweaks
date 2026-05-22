@@ -91,6 +91,7 @@ if [ -n "${CHOICES_MOCK:-}" ]; then
     CHOICES="$CHOICES_MOCK"
 else
     CHOICES=$(gum choose --no-limit \
+        --header="⚠️  ¡IMPORTANTE! Presiona la barra [ESPACIO] para marcar cada opción (aparecerá una ✓), luego [ENTER] para iniciar:" \
         "⚡ [1] NVIDIA Wayland & Electron HW Acceleration" \
         "🌐 [2] System Latency & Connection sysctl rules" \
         "📂 [3] Linux File Watcher expansions (inotify)" \

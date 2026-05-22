@@ -202,6 +202,7 @@ else
     log_info "Interactive mode triggered."
     echo -e "\n${YELLOW}👉 Select the applications from Easyarch you want to install:${RESET}"
     CHOICES=$(gum choose --no-limit \
+        --header="⚠️  ¡IMPORTANTE! Presiona la barra [ESPACIO] para marcar cada aplicación (aparecerá una ✓), luego [ENTER] para iniciar:" \
         "📱 [1] Telegram Desktop" \
         "🎮 [2] WineHQ & Lutris Gaming Compatibility stack" \
         "💻 [3] GitHub Desktop client" \

@@ -31,9 +31,17 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Get script & project base paths dynamically
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+# Get script & project base paths dynamically (with multi-layered pipeline fallback support)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-.}")" && pwd)"
+if [ -d "${SCRIPT_DIR}/../scripts" ]; then
+    PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+elif [ -d "./scripts" ]; then
+    PROJECT_DIR="$(pwd)"
+elif [ -d "../scripts" ]; then
+    PROJECT_DIR="$(cd .. && pwd)"
+else
+    PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+fi
 
 # Print premium header
 echo -e "${MAGENTA}"
@@ -78,17 +86,22 @@ fi
 echo -e "\n${YELLOW}👉 Select the optimization modules you wish to apply:${RESET}"
 echo -e "${CYAN}(Use [Space] to toggle, [Enter] to confirm) ${RESET}\n"
 
-CHOICES=$(gum choose --no-limit \
-    "⚡ [1] NVIDIA Wayland & Electron HW Acceleration" \
-    "🌐 [2] System Latency & Connection sysctl rules" \
-    "📂 [3] Linux File Watcher expansions (inotify)" \
-    "🛡️  [4] Snapper BTRFS recovery snapshots & pacman hooks" \
-    "🛠️  [5] Developer Core (tmux panel splits & mise environment shims)" \
-    "📦 [6] Premium Apps Bundle (Vivaldi + GPU, Audio stack, BT codecs, zip/rar)" \
-    "🤖 [7] AI Developer Tools (Claude Code, Gemini CLI, Agent Shims)" \
-    "🚀 [8] Easyarch App Pack (Telegram, WineHQ, GitHub Desktop, Chrome, OnlyOffice, Antigravity)" \
-    "🖥️  [9] Virtualization Stack (KVM, QEMU, virt-manager, virtual bridges)" \
-    "🐋 [10] Docker Stack (Docker engine, Compose, NVIDIA CUDA container toolkit)")
+if [ -n "${CHOICES_MOCK:-}" ]; then
+    log_info "Mock mode active. Selected choices: ${CHOICES_MOCK}"
+    CHOICES="$CHOICES_MOCK"
+else
+    CHOICES=$(gum choose --no-limit \
+        "⚡ [1] NVIDIA Wayland & Electron HW Acceleration" \
+        "🌐 [2] System Latency & Connection sysctl rules" \
+        "📂 [3] Linux File Watcher expansions (inotify)" \
+        "🛡️ [4] Snapper BTRFS recovery snapshots & pacman hooks" \
+        "🛠️ [5] Developer Core (tmux panel splits & mise environment shims)" \
+        "📦 [6] Premium Apps Bundle (Vivaldi + GPU, Audio stack, BT codecs, zip/rar)" \
+        "🤖 [7] AI Developer Tools (Claude Code, Gemini CLI, Agent Shims)" \
+        "🚀 [8] Easyarch App Pack (Telegram, WineHQ, GitHub Desktop, Chrome, OnlyOffice, Antigravity)" \
+        "🖥️ [9] Virtualization Stack (KVM, QEMU, virt-manager, virtual bridges)" \
+        "🐋 [10] Docker Stack (Docker engine, Compose, NVIDIA CUDA container toolkit)")
+fi
 
 if [ -z "$CHOICES" ]; then
     log_warn "No modules were selected. Exiting installer."

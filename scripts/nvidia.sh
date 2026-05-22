@@ -77,7 +77,7 @@ chown -R "${SUDO_USER:-$USER}:${SUDO_USER:-$USER}" "$CHROME_FLAGS_DIR"
 
 FLAG="--enable-features=VaapiOnNvidiaGPUs"
 if [ -f "$CHROME_FLAGS_FILE" ]; then
-    if ! grep -qF "$FLAG" "$CHROME_FLAGS_FILE"; then
+    if ! grep -qF -- "$FLAG" "$CHROME_FLAGS_FILE"; then
         echo "$FLAG" >> "$CHROME_FLAGS_FILE" # Append
         log_success "Added Vaapi flag to existing chromium-flags.conf"
     else

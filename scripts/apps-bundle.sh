@@ -76,7 +76,7 @@ FLAG="--enable-features=VaapiOnNvidiaGPUs"
 for file in "vivaldi-stable-flags.conf" "vivaldi-flags.conf"; do
     FILE_PATH="${VIVALDI_FLAGS_DIR}/${file}"
     if [ -f "$FILE_PATH" ]; then
-        if ! grep -qF "$FLAG" "$FILE_PATH"; then
+        if ! grep -qF -- "$FLAG" "$FILE_PATH"; then
             echo "$FLAG" >> "$FILE_PATH"
             log_success "Added VA-API acceleration flag to existing ${file}"
         else

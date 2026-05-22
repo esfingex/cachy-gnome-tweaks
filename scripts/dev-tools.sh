@@ -46,8 +46,10 @@ else
 fi
 
 # 3. Configure tmux
-log_info "Configuring tmux workspace layout..."
-TMUX_SRC="/home/athena/Github/cachy-gnome-tweaks/config/tmux.conf"
+# Resolve TMUX_SRC dynamically relative to the script position
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-.}")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+TMUX_SRC="${PROJECT_DIR}/config/tmux.conf"
 TMUX_DST="${TARGET_HOME}/.tmux.conf"
 
 if [ -f "$TMUX_SRC" ]; then

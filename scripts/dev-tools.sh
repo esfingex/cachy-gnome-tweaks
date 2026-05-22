@@ -85,14 +85,16 @@ BASHRC="${TARGET_HOME}/.bashrc"
 if [ -f "$BASHRC" ]; then
     log_info "Injecting environment hooks into ${BASHRC}..."
     
-    # Remove older hooks if they exist to avoid duplicate code
+    # Remove older hooks or blocks safely
+    sed -i '/# <<< cachy-gnome-tweaks START <<<$/,/# >>> cachy-gnome-tweaks END >>>$/d' "$BASHRC"
     sed -i '/# cachy-gnome-tweaks/d' "$BASHRC"
     sed -i '/starship init bash/d' "$BASHRC"
     sed -i '/mise activate bash/d' "$BASHRC"
     
-    # Append fresh shims
+    # Append fresh shims in a clean block
     cat << 'EOF' >> "$BASHRC"
 
+# <<< cachy-gnome-tweaks START <<<
 # cachy-gnome-tweaks: Developer environment shims
 if command -v starship &>/dev/null; then
     eval "$(starship init bash)"
@@ -100,6 +102,7 @@ fi
 if command -v mise &>/dev/null; then
     eval "$(mise activate bash)"
 fi
+# >>> cachy-gnome-tweaks END >>>
 EOF
     log_success "Bash configurations injected."
 else
@@ -120,13 +123,15 @@ if [ -d "${CONFIG_DIR}/fish" ] || [ -f "$FISH_CONF" ]; then
     fi
     
     # Clean previous blocks safely
+    sed -i '/# <<< cachy-gnome-tweaks START <<<$/,/# >>> cachy-gnome-tweaks END >>>$/d' "$FISH_CONF"
     sed -i '/# cachy-gnome-tweaks/d' "$FISH_CONF"
     sed -i '/starship init fish/d' "$FISH_CONF"
     sed -i '/mise activate fish/d' "$FISH_CONF"
     
-    # Append fresh fish shims
+    # Append fresh fish shims in a clean block
     cat << 'EOF' >> "$FISH_CONF"
 
+# <<< cachy-gnome-tweaks START <<<
 # cachy-gnome-tweaks: Developer environment shims
 if status is-interactive
     if type -q starship
@@ -136,6 +141,7 @@ if status is-interactive
         mise activate fish | source
     end
 end
+# >>> cachy-gnome-tweaks END >>>
 EOF
     log_success "Fish configurations injected."
 else

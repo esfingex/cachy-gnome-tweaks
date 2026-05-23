@@ -155,11 +155,11 @@ cat << EOF > "$SHORTCUT_PATH"
 [Desktop Entry]
 Name=Antigravity IDE
 Comment=High-Performance Agentic Workspace Terminal
-Exec=/usr/local/bin/antigravity
+Exec=/opt/antigravity-ide/antigravity-ide %F
 Icon=utilities-terminal
-Terminal=true
+Terminal=false
 Type=Application
-Categories=Development;IDE;TerminalEmulator;
+Categories=Development;IDE;
 StartupNotify=true
 EOF
 

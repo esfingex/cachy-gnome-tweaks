@@ -94,5 +94,10 @@ log_info "Installing compression and archive utilities (zip, unzip, unrar, p7zip
 pacman -S --needed --noconfirm zip unzip unrar p7zip || log_warn "Could not install all archive utilities."
 log_success "Compression utilities successfully configured!"
 
+# 4. GNOME Menu Editor (menulibre)
+log_info "Installing GNOME Menu Editor (menulibre)..."
+pacman -S --needed --noconfirm menulibre || log_warn "Could not install menulibre package."
+log_success "MenuLibre successfully installed!"
+
 log_success "Premium Application Bundle applied successfully!"
 echo -e "\n${YELLOW}💡 Note: Open Vivaldi and check 'vivaldi://gpu' to confirm that Hardware Video Decoding is now fully active on your GPU!${RESET}\n"

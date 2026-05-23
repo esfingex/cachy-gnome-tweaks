@@ -36,6 +36,7 @@ This project isolates and refactors high-grade backend improvements (NVIDIA GPU 
   * Installs **Vivaldi Browser** along with proprietary media codecs, GNOME Shell browser connector integration (`gnome-browser-connector`), and automatically sets up hardware accelerated video decoding (VA-API) in Vivaldi configuration flags for seamless YouTube/video rendering.
   * Deploys the high-fidelity **Audio Stack & Bluetooth Codecs** (LDAC, aptX) alongside `pavucontrol` (volume mixer GUI) for superior sound stability and control.
   * Installs essential **Compression & Archive Utilities** (`zip`, `unzip`, `unrar`, `p7zip`) to enable seamless extraction of `.zip`, `.rar`, and `.7z` files directly inside GNOME's default file manager.
+  * Installs **MenuLibre** desktop menu editor, allowing you to easily customize, edit, or clean up your GNOME applications menu shortcuts.
 * **🚀 Module 7: Easyarch App Pack (Optional)**
   * Install your favorite tools interactively or via CLI arguments:
     * **Telegram Desktop** for communication.

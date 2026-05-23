@@ -98,7 +98,7 @@ else
         "🛡️ [4] Snapper BTRFS recovery snapshots & pacman hooks" \
         "🛠️ [5] Developer Core (tmux panel splits & mise environment shims)" \
         "📦 [6] Premium Apps Bundle (Vivaldi + GPU, Audio stack, BT codecs, zip/rar)" \
-        "🚀 [7] Easyarch App Pack (Telegram, WineHQ, GitHub Desktop, Chrome, OnlyOffice, Antigravity)" \
+        "🚀 [7] Easyarch App Pack (Telegram, Wine & Gaming Core, GitHub Desktop, Chrome, OnlyOffice, Antigravity)" \
         "🖥️ [8] Virtualization Stack (KVM, QEMU, virt-manager, virtual bridges)" \
         "🐋 [9] Docker Stack (Docker engine, Compose, NVIDIA CUDA container toolkit)" \
         "🧹 [10] Bloatware Remover (Uninstall unused apps like Alacritty, GNOME Web, etc.)")

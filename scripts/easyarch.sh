@@ -2,7 +2,7 @@
 # ==============================================================================
 #   cachy-gnome-tweaks - scripts/easyarch.sh
 #   Purpose: Independent and interactive installers for your favorite tools:
-#            Telegram, WineHQ, GitHub Desktop, Chrome, OnlyOffice, Antigravity IDE & qBittorrent
+#            Telegram, Wine & Gaming Core, GitHub Desktop, Chrome, OnlyOffice, Antigravity IDE & qBittorrent
 # ==============================================================================
 set -euo pipefail
 
@@ -50,13 +50,20 @@ install_telegram() {
     log_success "Telegram Desktop successfully installed!"
 }
 
-install_winehq() {
-    log_info "Installing WineHQ & Lutris Gaming Compatibility stack..."
-    # Install Lutris and Wine Staging
-    pacman -S --needed --noconfirm lutris wine-staging giflib lib32-giflib
+install_gaming_core() {
+    log_info "Installing CachyOS Wine & Gaming Core Pack..."
     
-    # Install key 32-bit libraries for high compatibility steam/lutris runners
-    log_info "Configuring multilib dependencies for wine gaming..."
+    # 0. Handle standard wine package conflict to prevent pacman aborting
+    if pacman -Q wine &>/dev/null && ! pacman -Q wine-cachyos &>/dev/null; then
+        log_info "Replacing standard 'wine' package with optimized 'wine-cachyos'..."
+        pacman -Rdd --noconfirm wine
+    fi
+    
+    # 1. Install CachyOS base gaming, optimized wine, winetricks
+    pacman -S --needed --noconfirm cachyos-gaming-meta wine-cachyos winetricks
+    
+    # 2. Install essential multilib 32-bit and 64-bit graphics/audio packages for high compatibility
+    log_info "Configuring high-compatibility multilib dependencies..."
     pacman -S --needed --noconfirm \
         lib32-vulkan-icd-loader \
         lib32-gnutls \
@@ -64,8 +71,19 @@ install_winehq() {
         lib32-libxcomposite \
         lib32-libxinerama \
         lib32-sqlite \
-        lib32-libgcrypt || log_warn "Could not install all 32-bit multilib graphics dependencies."
-    log_success "WineHQ & Lutris stack successfully configured!"
+        lib32-libgcrypt \
+        giflib \
+        lib32-giflib
+        
+    # 3. Install user tools: protontricks and protonup-qt
+    log_info "Installing graphical utilities: protontricks and protonup-qt..."
+    pacman -S --needed --noconfirm protontricks protonup-qt
+    
+    # 4. Install GNOME GameMode top bar extension (from AUR)
+    log_info "Installing GNOME Shell GameMode indicator extension..."
+    run_yay "gnome-shell-extension-gamemode-git" || log_warn "Could not install GNOME GameMode extension. It might need to be enabled manually."
+    
+    log_success "Wine & Gaming Core Pack successfully configured!"
 }
 
 install_github_desktop() {
@@ -118,7 +136,7 @@ if [ $# -gt 0 ]; then
     for arg in "$@"; do
         case "$arg" in
             telegram) APPS+=("telegram") ;;
-            wine|winehq) APPS+=("winehq") ;;
+            gaming|gaming-core) APPS+=("gaming-core") ;;
             github|github-desktop) APPS+=("github-desktop") ;;
             antigravity|ide) APPS+=("antigravity-ide") ;;
             chrome|google-chrome) APPS+=("chrome") ;;
@@ -139,7 +157,7 @@ else
     CHOICES=$(gum choose --no-limit \
         --header="⚠️  ¡IMPORTANTE! Presiona la barra [ESPACIO] para marcar cada aplicación (aparecerá una ✓), luego [ENTER] para iniciar:" \
         "📱 [1] Telegram Desktop" \
-        "🎮 [2] WineHQ & Lutris Gaming Compatibility stack" \
+        "🎮 [2] Wine & Gaming Core Pack (Wine-CachyOS, ProtonUp, Protontricks, GNOME GameMode)" \
         "💻 [3] GitHub Desktop client" \
         "🛸 [4] Antigravity IDE Premium Launcher" \
         "🌐 [5] Google Chrome Browser" \
@@ -152,7 +170,7 @@ else
     fi
     
     if echo "$CHOICES" | grep -q "\[1\]"; then APPS+=("telegram"); fi
-    if echo "$CHOICES" | grep -q "\[2\]"; then APPS+=("winehq"); fi
+    if echo "$CHOICES" | grep -q "\[2\]"; then APPS+=("gaming-core"); fi
     if echo "$CHOICES" | grep -q "\[3\]"; then APPS+=("github-desktop"); fi
     if echo "$CHOICES" | grep -q "\[4\]"; then APPS+=("antigravity-ide"); fi
     if echo "$CHOICES" | grep -q "\[5\]"; then APPS+=("chrome"); fi
@@ -166,7 +184,7 @@ log_info "Selected applications: ${APPS[*]}"
 for app in "${APPS[@]}"; do
     case "$app" in
         telegram) install_telegram ;;
-        winehq) install_winehq ;;
+        gaming-core) install_gaming_core ;;
         github-desktop) install_github_desktop ;;
         antigravity-ide) install_antigravity_ide ;;
         chrome) install_chrome ;;

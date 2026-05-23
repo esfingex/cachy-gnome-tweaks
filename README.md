@@ -40,7 +40,7 @@ This project isolates and refactors high-grade backend improvements (NVIDIA GPU 
 * **🚀 Module 7: Easyarch App Pack (Optional)**
   * Install your favorite tools interactively or via CLI arguments:
     * **Telegram Desktop** for communication.
-    * **WineHQ & Lutris Staging** gaming stack with 32-bit multilib overrides.
+    * **Wine & Gaming Core Pack**: Optimised `wine-cachyos` execution base, `wine-mono`/`wine-gecko`, `winetricks`, graphical companion tools (`protonup-qt`, `protontricks`), full `cachyos-gaming-meta` stack, GNOME shell GameMode status indicator extension, and essential multilib 32-bit & 64-bit graphics/audio rendering drivers.
     * **GitHub Desktop** client for GUI git operations.
     * **Google Chrome** browser.
     * **OnlyOffice** suite with Spanish spelling dictionary support (`hunspell-es`).
@@ -82,9 +82,9 @@ Each module can also be called directly as an independent installer script, bypa
 ### 🚀 Easyarch App Installer (`easyarch.sh`)
 Pass the names of the tools you want to install as CLI arguments:
 ```bash
-sudo ./scripts/easyarch.sh telegram winehq onlyoffice chrome github antigravity qbittorrent
+sudo ./scripts/easyarch.sh telegram gaming-core onlyoffice chrome github antigravity qbittorrent
 ```
-*Available argument options:* `telegram`, `wine`, `github`, `chrome`, `onlyoffice`, `antigravity`, `qbittorrent`.
+*Available argument options:* `telegram`, `gaming`, `github`, `chrome`, `onlyoffice`, `antigravity`, `qbittorrent`.
 
 ### 🤖 Gemini API CLI Helper (`gemini`)
 Ask queries directly from your shell to Gemini 1.5 Flash:
@@ -112,7 +112,7 @@ cachy-gnome-tweaks/
     ├── snapper.sh              # Module 4: Snapper configuration & grub-btrfs daemon hook
     ├── dev-tools.sh            # Module 5: User configurations, yay bootstrapper & mise shell configs
     ├── apps-bundle.sh          # Module 6: Vivaldi, Audio stack & BT codecs
-    ├── easyarch.sh             # Module 7: Telegram, WineHQ, GitHub Desktop, Chrome, OnlyOffice, Antigravity, qBittorrent (Calls antigravity.sh)
+    ├── easyarch.sh             # Module 7: Telegram, Wine & Gaming Core, GitHub Desktop, Chrome, OnlyOffice, Antigravity, qBittorrent (Calls antigravity.sh)
     ├── antigravity.sh          # Standalone: Dedicated premium Antigravity IDE setup & desktop shortcut
     ├── kvm-qemu.sh             # Module 8: KVM/QEMU hypervisor & bridges setup
     ├── docker-cuda.sh          # Module 9: Docker Engine & NVIDIA container toolkit hooks

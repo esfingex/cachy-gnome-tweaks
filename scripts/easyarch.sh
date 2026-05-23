@@ -75,81 +75,16 @@ install_github_desktop() {
 }
 
 install_antigravity_ide() {
-    log_info "Deploying premium Antigravity IDE Launcher & workspace integration..."
-    
-    # 1. Ensure VS Code is installed first
-    log_info "Ensuring VS Code is installed to back the Antigravity launcher..."
-    if ! command -v code &>/dev/null; then
-        run_yay "visual-studio-code-bin"
+    log_info "Invoking dedicated Antigravity IDE installer script..."
+    local script_path
+    script_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/antigravity.sh"
+    if [ -f "$script_path" ]; then
+        chmod +x "$script_path"
+        sudo -E bash "$script_path"
+    else
+        log_error "Dedicated Antigravity IDE installer not found at ${script_path}"
+        exit 1
     fi
-
-    # 2. Create the executable launcher /usr/local/bin/antigravity
-    LAUNCHER_PATH="/usr/local/bin/antigravity"
-    log_info "Creating global launcher command at ${LAUNCHER_PATH}..."
-    cat << 'EOF' > "$LAUNCHER_PATH"
-#!/bin/bash
-# ==============================================================================
-#   antigravity - Premium AI-Integrated Developer Terminal & VS Code Launcher
-# ==============================================================================
-set -eo pipefail
-
-CYAN="\e[1;36m"
-MAGENTA="\e[1;35m"
-RESET="\e[0m"
-
-clear
-echo -e "${CYAN}"
-echo -e "   ┌────────────────────────────────────────────────────────┐"
-echo -e "   │                                                        │"
-echo -e "   │          🛸   A N T I G R A V I T Y   I D E   🛸       │"
-echo -e "   │         High-Performance Agentic Workspace Terminal    │"
-echo -e "   │                                                        │"
-echo -e "   └────────────────────────────────────────────────────────┘"
-echo -e "${RESET}"
-
-TARGET_DIR="${1:-${PWD}}"
-echo -e "${CYAN}[*] Starting workspace runtime in: ${TARGET_DIR}...${RESET}"
-
-# Launch VS Code with our active agentic structures
-if command -v code &>/dev/null; then
-    code "$TARGET_DIR" &
-    echo -e "${MAGENTA}[+] VS Code successfully hooked and spawned in the background.${RESET}"
-fi
-
-# Spawns a premium developer tmux shell or basic shell
-if command -v tmux &>/dev/null; then
-    echo -e "${CYAN}[*] Attaching persistent developer tmux workbench...${RESET}\n"
-    sleep 0.5
-    tmux new-session -A -s "antigravity" -c "$TARGET_DIR"
-else
-    echo -e "${CYAN}[*] TMUX not found. Deploying default agentic bash shell...${RESET}\n"
-    bash
-fi
-EOF
-    chmod +x "$LAUNCHER_PATH"
-
-    # 3. Create a beautiful .desktop shortcut for GNOME menu
-    SHORTCUT_DIR="${TARGET_HOME}/.local/share/applications"
-    mkdir -p "$SHORTCUT_DIR"
-    SHORTCUT_PATH="${SHORTCUT_DIR}/antigravity.desktop"
-
-    log_info "Creating GNOME desktop shortcut entry..."
-    cat << EOF > "$SHORTCUT_PATH"
-[Desktop Entry]
-Name=Antigravity IDE
-Comment=High-Performance Agentic Workspace Terminal
-Exec=/usr/local/bin/antigravity
-Icon=utilities-terminal
-Terminal=true
-Type=Application
-Categories=Development;IDE;TerminalEmulator;
-StartupNotify=true
-EOF
-    chown "${TARGET_USER}:${TARGET_USER}" "$SHORTCUT_PATH"
-    chmod +x "$SHORTCUT_PATH"
-    
-    log_success "Antigravity IDE Launcher & workspace integration successfully configured!"
-    echo -e "${YELLOW}💡 Note: You can now type 'antigravity' in terminal or launch 'Antigravity IDE' directly from your GNOME Applications Overview!${RESET}"
 }
 
 install_chrome() {

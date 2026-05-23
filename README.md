@@ -36,10 +36,7 @@ This project isolates and refactors high-grade backend improvements (NVIDIA GPU 
   * Installs **Vivaldi Browser** along with proprietary media codecs, GNOME Shell browser connector integration (`gnome-browser-connector`), and automatically sets up hardware accelerated video decoding (VA-API) in Vivaldi configuration flags for seamless YouTube/video rendering.
   * Deploys the high-fidelity **Audio Stack & Bluetooth Codecs** (LDAC, aptX) alongside `pavucontrol` (volume mixer GUI) for superior sound stability and control.
   * Installs essential **Compression & Archive Utilities** (`zip`, `unzip`, `unrar`, `p7zip`) to enable seamless extraction of `.zip`, `.rar`, and `.7z` files directly inside GNOME's default file manager.
-* **🤖 Module 7: AI Developer Tools (Optional)**
-  * Installs **Claude Code** (`@anthropic-ai/claude-code`) globally with npm.
-  * Deploys a robust, high-performance **Gemini API CLI Client** (`/usr/local/bin/gemini`) querying Gemini 1.5 Flash with custom shell shims for bash & fish (`claude`, `geminia`).
-* **🚀 Module 8: Easyarch App Pack (Optional)**
+* **🚀 Module 7: Easyarch App Pack (Optional)**
   * Install your favorite tools interactively or via CLI arguments:
     * **Telegram Desktop** for communication.
     * **WineHQ & Lutris Staging** gaming stack with 32-bit multilib overrides.
@@ -48,12 +45,14 @@ This project isolates and refactors high-grade backend improvements (NVIDIA GPU 
     * **OnlyOffice** suite with Spanish spelling dictionary support (`hunspell-es`).
     * **Antigravity IDE Launcher**: Global command `antigravity` and a GNOME `.desktop` shortcut that launches VS Code hooked with a persistent workspace tmux terminal.
     * **qBittorrent**: Lightweight, ad-free, open-source BitTorrent client.
-* **🖥️ Module 9: Virtualization Stack (Optional)**
+* **🖥️ Module 8: Virtualization Stack (Optional)**
   * Complete high-performance **KVM/QEMU** virtualization environment setup.
   * Installs `virt-manager` GUI, `dnsmasq`, bridge interfaces, and automatically registers the active user in the `libvirt` system group.
-* **🐋 Module 10: Docker Stack (Optional)**
+* **🐋 Module 9: Docker Stack (Optional)**
   * Installs **Docker Engine & Docker Compose**.
   * Registers user in the `docker` group and configures **NVIDIA CUDA Container Toolkit** runtime hooks directly inside `/etc/docker/daemon.json`.
+* **🧹 Module 10: Bloatware Remover (Optional)**
+  * Interactively purges unused pre-installed applications like **Alacritty**, **GNOME Web (Epiphany)**, **GNOME Tour**, and other redundant utilities to keep your desktop system light and clean.
 
 ---
 
@@ -112,10 +111,11 @@ cachy-gnome-tweaks/
     ├── snapper.sh              # Module 4: Snapper configuration & grub-btrfs daemon hook
     ├── dev-tools.sh            # Module 5: User configurations, yay bootstrapper & mise shell configs
     ├── apps-bundle.sh          # Module 6: Vivaldi, Audio stack & BT codecs
-    ├── ai-tools.sh             # Module 7: Claude Code & Gemini API terminal CLI
-    ├── easyarch.sh             # Module 8: Telegram, WineHQ, GitHub Desktop, Chrome, OnlyOffice, Antigravity, qBittorrent
-    ├── kvm-qemu.sh             # Module 9: KVM/QEMU hypervisor & bridges setup
-    └── docker-cuda.sh          # Module 10: Docker Engine & NVIDIA container toolkit hooks
+    ├── easyarch.sh             # Module 7: Telegram, WineHQ, GitHub Desktop, Chrome, OnlyOffice, Antigravity, qBittorrent (Calls antigravity.sh)
+    ├── antigravity.sh          # Standalone: Dedicated premium Antigravity IDE setup & desktop shortcut
+    ├── kvm-qemu.sh             # Module 8: KVM/QEMU hypervisor & bridges setup
+    ├── docker-cuda.sh          # Module 9: Docker Engine & NVIDIA container toolkit hooks
+    └── debloat.sh              # Module 10: Interactive bloatware & unused apps remover
 ```
 
 ---

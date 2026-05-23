@@ -98,10 +98,10 @@ else
         "🛡️ [4] Snapper BTRFS recovery snapshots & pacman hooks" \
         "🛠️ [5] Developer Core (tmux panel splits & mise environment shims)" \
         "📦 [6] Premium Apps Bundle (Vivaldi + GPU, Audio stack, BT codecs, zip/rar)" \
-        "🤖 [7] AI Developer Tools (Claude Code, Gemini CLI, Agent Shims)" \
-        "🚀 [8] Easyarch App Pack (Telegram, WineHQ, GitHub Desktop, Chrome, OnlyOffice, Antigravity)" \
-        "🖥️ [9] Virtualization Stack (KVM, QEMU, virt-manager, virtual bridges)" \
-        "🐋 [10] Docker Stack (Docker engine, Compose, NVIDIA CUDA container toolkit)")
+        "🚀 [7] Easyarch App Pack (Telegram, WineHQ, GitHub Desktop, Chrome, OnlyOffice, Antigravity)" \
+        "🖥️ [8] Virtualization Stack (KVM, QEMU, virt-manager, virtual bridges)" \
+        "🐋 [9] Docker Stack (Docker engine, Compose, NVIDIA CUDA container toolkit)" \
+        "🧹 [10] Bloatware Remover (Uninstall unused apps like Alacritty, GNOME Web, etc.)")
 fi
 
 if [ -z "$CHOICES" ]; then
@@ -169,19 +169,19 @@ if echo "$CHOICES" | grep -q "\[6\]"; then
 fi
 
 if echo "$CHOICES" | grep -q "\[7\]"; then
-    run_module "ai-tools.sh" "AI Developer Tools"
-fi
-
-if echo "$CHOICES" | grep -q "\[8\]"; then
     run_module "easyarch.sh" "Easyarch App Pack"
 fi
 
-if echo "$CHOICES" | grep -q "\[9\]"; then
+if echo "$CHOICES" | grep -q "\[8\]"; then
     run_module "kvm-qemu.sh" "KVM/QEMU Virtualization Stack"
 fi
 
-if echo "$CHOICES" | grep -q "\[10\]"; then
+if echo "$CHOICES" | grep -q "\[9\]"; then
     run_module "docker-cuda.sh" "Docker Engine & CUDA container toolkit"
+fi
+
+if echo "$CHOICES" | grep -q "\[10\]"; then
+    run_module "debloat.sh" "Bloatware Remover"
 fi
 
 echo -e "------------------------------------------------------------"

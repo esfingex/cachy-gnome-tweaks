@@ -30,6 +30,15 @@ else
     TARGET_HOME="/home/$TARGET_USER"
 fi
 
+# Detect desktop environment
+IS_KDE=false
+IS_GNOME=false
+if [[ "${XDG_CURRENT_DESKTOP:-}" == *"KDE"* ]]; then
+    IS_KDE=true
+elif [[ "${XDG_CURRENT_DESKTOP:-}" == *"GNOME"* ]]; then
+    IS_GNOME=true
+fi
+
 log_info "Starting ASUS Laptop & Intel CPU Thermal optimization for user '${TARGET_USER}'..."
 
 # 1. Install required packages (asusctl, supergfxctl, thermald)
@@ -61,26 +70,30 @@ systemctl enable --now thermald.service 2>/dev/null || log_warn "Could not enabl
 log_success "Intel active thermal daemon (thermald) is active."
 
 # 5. Install GPU Switcher GNOME Shell Extension (chikobara/GPU-Switcher-Supergfxctl)
-log_info "Installing GPU Switcher GNOME Shell extension by chikobara..."
-EXT_UUID="gpu-switcher-supergfxctl@chikobara.github.io"
-EXT_DIR="${TARGET_HOME}/.local/share/gnome-shell/extensions/${EXT_UUID}"
-
-if [ "$TARGET_USER" != "root" ] && [ -d "${TARGET_HOME}" ]; then
-    mkdir -p "$(dirname "${EXT_DIR}")"
-    if [ -d "$EXT_DIR" ]; then
-        log_info "GPU Switcher extension is already cloned in ${EXT_DIR}. Updating..."
-        (cd "$EXT_DIR" && git pull) || log_warn "Could not update the extension from GitHub."
-    else
-        log_info "Cloning extension repository from GitHub..."
-        if git clone --quiet https://github.com/chikobara/GPU-Switcher-Supergfxctl.git "$EXT_DIR"; then
-            log_success "Successfully cloned extension to ${EXT_DIR}."
+if $IS_GNOME; then
+    log_info "Installing GPU Switcher GNOME Shell extension by chikobara..."
+    EXT_UUID="gpu-switcher-supergfxctl@chikobara.github.io"
+    EXT_DIR="${TARGET_HOME}/.local/share/gnome-shell/extensions/${EXT_UUID}"
+    
+    if [ "$TARGET_USER" != "root" ] && [ -d "${TARGET_HOME}" ]; then
+        mkdir -p "$(dirname "${EXT_DIR}")"
+        if [ -d "$EXT_DIR" ]; then
+            log_info "GPU Switcher extension is already cloned in ${EXT_DIR}. Updating..."
+            (cd "$EXT_DIR" && git pull) || log_warn "Could not update the extension from GitHub."
         else
-            log_warn "Failed to clone GPU Switcher extension from GitHub."
+            log_info "Cloning extension repository from GitHub..."
+            if git clone --quiet https://github.com/chikobara/GPU-Switcher-Supergfxctl.git "$EXT_DIR"; then
+                log_success "Successfully cloned extension to ${EXT_DIR}."
+            else
+                log_warn "Failed to clone GPU Switcher extension from GitHub."
+            fi
         fi
+        chown -R "${TARGET_USER}:${TARGET_USER}" "$(dirname "${EXT_DIR}")"
+    else
+        log_warn "Target user is root or home directory does not exist. Skipping GNOME extension installation."
     fi
-    chown -R "${TARGET_USER}:${TARGET_USER}" "$(dirname "${EXT_DIR}")"
 else
-    log_warn "Target user is root or home directory does not exist. Skipping GNOME extension installation."
+    log_info "Skipping GPU Switcher GNOME Shell extension (not running GNOME)."
 fi
 
 log_success "Laptop & Thermal Tuning optimizations applied successfully!"

@@ -31,6 +31,15 @@ else
     TARGET_HOME="/home/$TARGET_USER"
 fi
 
+# Detect desktop environment
+IS_KDE=false
+IS_GNOME=false
+if [[ "${XDG_CURRENT_DESKTOP:-}" == *"KDE"* ]]; then
+    IS_KDE=true
+elif [[ "${XDG_CURRENT_DESKTOP:-}" == *"GNOME"* ]]; then
+    IS_GNOME=true
+fi
+
 # Function to run yay commands safely as target non-root user
 run_yay() {
     local pkgs="$*"
@@ -80,8 +89,12 @@ install_gaming_core() {
     pacman -S --needed --noconfirm protontricks protonup-qt
     
     # 4. Install GNOME GameMode top bar extension (from AUR)
-    log_info "Installing GNOME Shell GameMode indicator extension..."
-    run_yay "gnome-shell-extension-gamemode-git" || log_warn "Could not install GNOME GameMode extension. It might need to be enabled manually."
+    if $IS_GNOME; then
+        log_info "Installing GNOME Shell GameMode indicator extension..."
+        run_yay "gnome-shell-extension-gamemode-git" || log_warn "Could not install GNOME GameMode extension. It might need to be enabled manually."
+    else
+        log_info "Skipping GNOME GameMode extension (not running GNOME)."
+    fi
     
     log_success "Wine & Gaming Core Pack successfully configured!"
 }

@@ -40,6 +40,10 @@ APP_PKG_MAP["📞 GNOME Contacts"]="gnome-contacts"
 APP_PKG_MAP["🗺️ GNOME Maps"]="gnome-maps"
 APP_PKG_MAP["☁️ GNOME Weather"]="gnome-weather"
 APP_PKG_MAP["🎵 GNOME Music"]="gnome-music"
+APP_PKG_MAP["🎵 Elisa (KDE Music Player)"]="elisa"
+APP_PKG_MAP["🧭 KHelpCenter (KDE Help Center)"]="khelpcenter"
+APP_PKG_MAP["🔍 KFind (KDE Search Tool)"]="kfind"
+APP_PKG_MAP["🌐 Konqueror (KDE Legacy Web Browser)"]="konqueror"
 APP_PKG_MAP["📥 lftp (Console FTP Client)"]="lftp"
 
 # List choices dynamically, only showing packages that are actually installed

@@ -30,6 +30,15 @@ else
     TARGET_HOME="/home/$TARGET_USER"
 fi
 
+# Detect desktop environment
+IS_KDE=false
+IS_GNOME=false
+if [[ "${XDG_CURRENT_DESKTOP:-}" == *"KDE"* ]]; then
+    IS_KDE=true
+elif [[ "${XDG_CURRENT_DESKTOP:-}" == *"GNOME"* ]]; then
+    IS_GNOME=true
+fi
+
 log_info "Starting Premium Application Bundle setup for user '${TARGET_USER}'..."
 
 # Ensure AUR helper 'yay' is accessible
@@ -61,9 +70,17 @@ pacman -S --needed --noconfirm \
 systemctl enable --now bluetooth.service 2>/dev/null || true
 log_success "Audio stack & premium Bluetooth codecs configured successfully!"
 
-# 2. Vivaldi Browser & GNOME Extension Integration + VAAPI Flags
-log_info "Installing Vivaldi Browser, proprietary codecs, and GNOME browser connector..."
-pacman -S --needed --noconfirm vivaldi vivaldi-ffmpeg-codecs gnome-browser-connector || log_warn "Could not install Vivaldi and GNOME connector packages."
+# 2. Vivaldi Browser & Desktop-Specific Extension Integration + VAAPI Flags
+if $IS_KDE; then
+    log_info "Installing Vivaldi Browser, codecs, and Plasma browser integration..."
+    pacman -S --needed --noconfirm vivaldi vivaldi-ffmpeg-codecs plasma-browser-integration || log_warn "Could not install Vivaldi and KDE Plasma integration packages."
+elif $IS_GNOME; then
+    log_info "Installing Vivaldi Browser, codecs, and GNOME browser connector..."
+    pacman -S --needed --noconfirm vivaldi vivaldi-ffmpeg-codecs gnome-browser-connector || log_warn "Could not install Vivaldi and GNOME connector packages."
+else
+    log_info "Installing Vivaldi Browser and codecs..."
+    pacman -S --needed --noconfirm vivaldi vivaldi-ffmpeg-codecs || log_warn "Could not install Vivaldi."
+fi
 
 # Configure hardware video decoding (VAAPI) for Vivaldi
 log_info "Configuring hardware acceleration variables for Vivaldi browser..."
@@ -94,16 +111,20 @@ log_info "Installing compression, disk and archive utilities (zip, unzip, unrar,
 pacman -S --needed --noconfirm zip unzip unrar p7zip gparted || log_warn "Could not install all archive/disk utilities."
 log_success "Compression & GParted utilities successfully configured!"
 
-# 4. GNOME Menu Editor (menulibre)
-log_info "Installing GNOME Menu Editor (menulibre)..."
-if command -v yay &>/dev/null; then
-    log_info "AUR helper 'yay' detected. Installing 'menulibre' from AUR..."
-    sudo -u "$TARGET_USER" yay -S --needed --noconfirm menulibre || log_warn "Could not install menulibre via yay."
+# 4. GNOME Menu Editor (menulibre) - GNOME-only (KDE Plasma uses native kmenuedit)
+if $IS_GNOME; then
+    log_info "Installing GNOME Menu Editor (menulibre)..."
+    if command -v yay &>/dev/null; then
+        log_info "AUR helper 'yay' detected. Installing 'menulibre' from AUR..."
+        sudo -u "$TARGET_USER" yay -S --needed --noconfirm menulibre || log_warn "Could not install menulibre via yay."
+    else
+        log_warn "AUR helper 'yay' not found. Attempting install via pacman..."
+        pacman -S --needed --noconfirm menulibre || log_warn "Could not install menulibre via pacman."
+    fi
+    log_success "MenuLibre installation stage completed!"
 else
-    log_warn "AUR helper 'yay' not found. Attempting install via pacman..."
-    pacman -S --needed --noconfirm menulibre || log_warn "Could not install menulibre via pacman."
+    log_info "Skipping GNOME Menu Editor (not running GNOME, KDE uses native kmenuedit)."
 fi
-log_success "MenuLibre installation stage completed!"
 
 log_success "Premium Application Bundle applied successfully!"
 echo -e "\n${YELLOW}💡 Note: Open Vivaldi and check 'vivaldi://gpu' to confirm that Hardware Video Decoding is now fully active on your GPU!${RESET}\n"

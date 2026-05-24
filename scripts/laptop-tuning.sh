@@ -53,6 +53,29 @@ log_info "Configuring and enabling Intel thermal daemon (thermald)..."
 systemctl enable --now thermald.service 2>/dev/null || log_warn "Could not enable/start thermald.service."
 log_success "Intel active thermal daemon (thermald) is active."
 
+# 5. Install GPU Switcher GNOME Shell Extension (chikobara/GPU-Switcher-Supergfxctl)
+log_info "Installing GPU Switcher GNOME Shell extension by chikobara..."
+EXT_UUID="gpu-switcher-supergfxctl@chikobara.github.io"
+EXT_DIR="${TARGET_HOME}/.local/share/gnome-shell/extensions/${EXT_UUID}"
+
+if [ "$TARGET_USER" != "root" ] && [ -d "${TARGET_HOME}" ]; then
+    mkdir -p "$(dirname "${EXT_DIR}")"
+    if [ -d "$EXT_DIR" ]; then
+        log_info "GPU Switcher extension is already cloned in ${EXT_DIR}. Updating..."
+        (cd "$EXT_DIR" && git pull) || log_warn "Could not update the extension from GitHub."
+    else
+        log_info "Cloning extension repository from GitHub..."
+        if git clone --quiet https://github.com/chikobara/GPU-Switcher-Supergfxctl.git "$EXT_DIR"; then
+            log_success "Successfully cloned extension to ${EXT_DIR}."
+        else
+            log_warn "Failed to clone GPU Switcher extension from GitHub."
+        fi
+    fi
+    chown -R "${TARGET_USER}:${TARGET_USER}" "$(dirname "${EXT_DIR}")"
+else
+    log_warn "Target user is root or home directory does not exist. Skipping GNOME extension installation."
+fi
+
 log_success "Laptop & Thermal Tuning optimizations applied successfully!"
 
 # Output helpful CLI commands for user reference

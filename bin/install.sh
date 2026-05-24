@@ -97,7 +97,7 @@ else
         "📂 [3] Linux File Watcher expansions (inotify)" \
         "🛡️ [4] Snapper BTRFS recovery snapshots & pacman hooks" \
         "🛠️ [5] Developer Core (tmux panel splits & mise environment shims)" \
-        "📦 [6] Premium Apps Bundle (Vivaldi + GPU, Audio stack, BT codecs, zip/rar)" \
+        "📦 [6] Apps Bundle (Vivaldi + GPU, Audio stack, BT codecs, zip/rar, GParted)" \
         "🚀 [7] Easyarch App Pack (Telegram, Wine & Gaming Core, GitHub Desktop, Chrome, OnlyOffice, Antigravity)" \
         "🖥️ [8] Virtualization Stack (KVM, QEMU, virt-manager, virtual bridges)" \
         "🐋 [9] Docker Stack (Docker engine, Compose, NVIDIA CUDA container toolkit)" \

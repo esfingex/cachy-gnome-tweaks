@@ -89,10 +89,10 @@ for file in "vivaldi-stable-flags.conf" "vivaldi-flags.conf"; do
     fi
 done
 
-# 3. Compression & Archive Utilities (zip, unzip, unrar, p7zip)
-log_info "Installing compression and archive utilities (zip, unzip, unrar, p7zip)..."
-pacman -S --needed --noconfirm zip unzip unrar p7zip || log_warn "Could not install all archive utilities."
-log_success "Compression utilities successfully configured!"
+# 3. Compression, Disk & Archive Utilities (zip, unzip, unrar, p7zip, gparted)
+log_info "Installing compression, disk and archive utilities (zip, unzip, unrar, p7zip, gparted)..."
+pacman -S --needed --noconfirm zip unzip unrar p7zip gparted || log_warn "Could not install all archive/disk utilities."
+log_success "Compression & GParted utilities successfully configured!"
 
 # 4. GNOME Menu Editor (menulibre)
 log_info "Installing GNOME Menu Editor (menulibre)..."

@@ -54,6 +54,8 @@ This project isolates and refactors high-grade backend improvements (NVIDIA GPU 
   * Registers user in the `docker` group and configures **NVIDIA CUDA Container Toolkit** runtime hooks directly inside `/etc/docker/daemon.json`.
 * **🧹 Module 10: Bloatware Remover (Optional)**
   * Interactively purges unused pre-installed applications like **Alacritty**, **GNOME Web (Epiphany)**, **GNOME Tour**, and other redundant utilities to keep your desktop system light and clean.
+* **⚡ Module 11: makepkg Native Compiler & RAM-disk Optimization (Optional)**
+  * Optimizes the Arch Linux compilation system (`/etc/makepkg.conf`) so that any package built from source (like emulators or AUR packages) compiles in a high-speed RAM-disk (`/tmp/makepkg`), utilizes all CPU cores/threads dynamically (`-j$(nproc)`), and leverages native processor instruction sets (`-march=native -O3`).
 
 ---
 
@@ -116,7 +118,8 @@ cachy-gnome-tweaks/
     ├── antigravity.sh          # Standalone: Dedicated premium Antigravity IDE setup & desktop shortcut
     ├── kvm-qemu.sh             # Module 8: KVM/QEMU hypervisor & bridges setup
     ├── docker-cuda.sh          # Module 9: Docker Engine & NVIDIA container toolkit hooks
-    └── debloat.sh              # Module 10: Interactive bloatware & unused apps remover
+    ├── debloat.sh              # Module 10: Interactive bloatware & unused apps remover
+    └── makepkg.sh              # Module 11: makepkg compiler & RAM-disk optimizations
 ```
 
 ---

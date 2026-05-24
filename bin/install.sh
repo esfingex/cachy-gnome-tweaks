@@ -101,7 +101,8 @@ else
         "🚀 [7] Easyarch App Pack (Telegram, Wine & Gaming Core, GitHub Desktop, Chrome, OnlyOffice, Antigravity)" \
         "🖥️ [8] Virtualization Stack (KVM, QEMU, virt-manager, virtual bridges)" \
         "🐋 [9] Docker Stack (Docker engine, Compose, NVIDIA CUDA container toolkit)" \
-        "🧹 [10] Bloatware Remover (Uninstall unused apps like Alacritty, GNOME Web, etc.)")
+        "🧹 [10] Bloatware Remover (Uninstall unused apps like Alacritty, GNOME Web, etc.)" \
+        "⚡ [11] makepkg Native Compiler Optimization (RAM-disk build, multi-threaded CPU)")
 fi
 
 if [ -z "$CHOICES" ]; then
@@ -182,6 +183,10 @@ fi
 
 if echo "$CHOICES" | grep -q "\[10\]"; then
     run_module "debloat.sh" "Bloatware Remover"
+fi
+
+if echo "$CHOICES" | grep -q "\[11\]"; then
+    run_module "makepkg.sh" "makepkg Compiler & RAM-disk Optimization"
 fi
 
 echo -e "------------------------------------------------------------"

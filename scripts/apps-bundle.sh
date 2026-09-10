@@ -62,9 +62,9 @@ if command -v yay &>/dev/null; then
     log_success "AUR helper 'yay' detected. Using it for package installations where helpful."
 fi
 
-# 1. High-Fidelity Audio Stack & Bluetooth Codecs
-log_info "Configuring audio compatibility and high-fidelity codecs..."
-# Install pavucontrol (GUI controller) and ensure pipewire bridges are active
+# 1. High-Fidelity Audio Stack, Bluetooth Codecs & Shelly Flatpak Support
+log_info "Configuring audio compatibility, Bluetooth codecs, Flatpak & Shelly backend..."
+# Install pavucontrol, pipewire bridges, flatpak, and shelly-flatpak-backend
 pacman -S --needed --noconfirm \
     pipewire-pulse \
     pipewire-alsa \
@@ -72,7 +72,9 @@ pacman -S --needed --noconfirm \
     wireplumber \
     pavucontrol \
     bluez \
-    bluez-utils || log_warn "Could not install all base audio/bluetooth utilities."
+    bluez-utils \
+    flatpak \
+    shelly-flatpak-backend || log_warn "Could not install all base audio/flatpak utilities."
 
 # Install high-quality Bluetooth codecs (LDAC, aptX) for lag-free premium headphone audio
 log_info "Installing high-fidelity Bluetooth audio codecs (LDAC / aptX / AAC)..."
